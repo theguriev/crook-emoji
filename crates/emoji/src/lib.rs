@@ -232,6 +232,7 @@ mod tests {
     fn about(key: u64) -> Render {
         Render {
             slot: String::from(SLOT),
+            entry: String::from(ENTRY),
             subject: Some(Subject::Tab(TabFacts {
                 key,
                 tab: None,
@@ -276,6 +277,7 @@ mod tests {
         assert_eq!(
             tree(Some(Render {
                 slot: String::from("header.right"),
+                entry: String::from(ENTRY),
                 subject: None,
             })),
             Node::Empty
@@ -283,6 +285,7 @@ mod tests {
         assert_eq!(
             tree(Some(Render {
                 slot: String::from(SLOT),
+                entry: String::from(ENTRY),
                 subject: None,
             })),
             Node::Empty
