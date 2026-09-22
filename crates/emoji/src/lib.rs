@@ -34,6 +34,22 @@ use crook_plugin_api::{
 pub mod marks;
 pub mod sys;
 
+// The plugin's face, and what it looks like, for the Plugins page and the
+// Store. Inside the module rather than beside it, for the reason a plugin is
+// one file: what says what the plugin is travels with it. Custom sections,
+// not data — they cost no memory and no fuel.
+crook_plugin_api::icon!("../../../assets/icon.png");
+crook_plugin_api::preview!(
+    1,
+    "../../../assets/marks.png",
+    "An emoji at the head of every tab, where the status dots were"
+);
+crook_plugin_api::preview!(
+    2,
+    "../../../assets/beside-a-badge.png",
+    "A mark with a badge on its corner, drawn by another plugin"
+);
+
 use marks::mark_for;
 
 /// The slot this plugin takes: the 24px mark at the head of a tab's row.
@@ -226,6 +242,15 @@ pub extern "C" fn crook_run(pointer: i32, length: i32) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_pictures_in_the_module_are_pngs() {
+        // A wrong path fails at compile time; a wrong file fails here, on the
+        // machine that runs the tests, rather than on the Plugins page.
+        assert!(CROOK_ICON.starts_with(b"\x89PNG\r\n\x1a\n"));
+        assert!(CROOK_PREVIEW_1.starts_with(b"\x89PNG\r\n\x1a\n"));
+        assert!(CROOK_PREVIEW_2.starts_with(b"\x89PNG\r\n\x1a\n"));
+    }
     use crook_plugin_api::TabFacts;
 
     /// A request about one row, which is all this plugin is ever sent.
