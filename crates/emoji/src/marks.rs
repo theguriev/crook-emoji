@@ -51,7 +51,7 @@ pub const MARKS: [&str; 64] = [
     "\u{1f40c}", // snail
     "\u{1f99c}", // parrot
     "\u{1f421}", // blowfish
-    "\u{1f43f}", // chipmunk
+    "\u{1f9a6}", // otter
     "\u{1f34e}", // red apple
     "\u{1f34a}", // tangerine
     "\u{1f34b}", // lemon
