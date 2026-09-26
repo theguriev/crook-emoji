@@ -103,8 +103,66 @@ fn every_mark_is_one_code_point_and_none_needs_a_variation_selector() {
 
         assert_eq!(chars.next(), None, "{mark:?} is more than one code point");
         assert!(first as u32 >= 0x1_f000, "{mark:?} may need a U+FE0F");
+        assert!(
+            !TEXT_BY_DEFAULT
+                .iter()
+                .any(|range| range.contains(&(first as u32))),
+            "{mark:?} is drawn as text unless a U+FE0F follows it"
+        );
     }
 }
+
+/// The emoji at or above U+1F000 whose default presentation is text: every
+/// code point with `Emoji` and without `Emoji_Presentation` in Unicode 16's
+/// `emoji-data.txt`. Being past U+1F000 was taken for being drawn in colour,
+/// and the chipmunk is one of these — grey wherever the fallback does not
+/// reach a colour font.
+const TEXT_BY_DEFAULT: &[std::ops::RangeInclusive<u32>] = &[
+    0x1f170..=0x1f171,
+    0x1f17e..=0x1f17f,
+    0x1f202..=0x1f202,
+    0x1f237..=0x1f237,
+    0x1f321..=0x1f321,
+    0x1f324..=0x1f32c,
+    0x1f336..=0x1f336,
+    0x1f37d..=0x1f37d,
+    0x1f396..=0x1f397,
+    0x1f399..=0x1f39b,
+    0x1f39e..=0x1f39f,
+    0x1f3cb..=0x1f3ce,
+    0x1f3d4..=0x1f3df,
+    0x1f3f3..=0x1f3f3,
+    0x1f3f5..=0x1f3f5,
+    0x1f3f7..=0x1f3f7,
+    0x1f43f..=0x1f43f,
+    0x1f441..=0x1f441,
+    0x1f4fd..=0x1f4fd,
+    0x1f549..=0x1f54a,
+    0x1f56f..=0x1f570,
+    0x1f573..=0x1f579,
+    0x1f587..=0x1f587,
+    0x1f58a..=0x1f58d,
+    0x1f590..=0x1f590,
+    0x1f5a5..=0x1f5a5,
+    0x1f5a8..=0x1f5a8,
+    0x1f5b1..=0x1f5b2,
+    0x1f5bc..=0x1f5bc,
+    0x1f5c2..=0x1f5c4,
+    0x1f5d1..=0x1f5d3,
+    0x1f5dc..=0x1f5de,
+    0x1f5e1..=0x1f5e1,
+    0x1f5e3..=0x1f5e3,
+    0x1f5e8..=0x1f5e8,
+    0x1f5ef..=0x1f5ef,
+    0x1f5f3..=0x1f5f3,
+    0x1f5fa..=0x1f5fa,
+    0x1f6cb..=0x1f6cb,
+    0x1f6cd..=0x1f6cf,
+    0x1f6e0..=0x1f6e5,
+    0x1f6e9..=0x1f6e9,
+    0x1f6f0..=0x1f6f0,
+    0x1f6f3..=0x1f6f3,
+];
 
 #[test]
 fn no_mark_is_in_the_table_twice() {
