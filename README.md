@@ -3,7 +3,7 @@
 An emoji at the head of every [Crook](https://github.com/theguriev/crook) tab, in place of the
 status dot — as a plugin the terminal does not carry.
 
-<img src="assets/marks.png" alt="Crook's tab panel: a kiwi, a puzzle piece, a trumpet, a whale and a guitar where the status dots were" width="320">
+<img src="assets/marks.png" alt="Crook's tab panel: a T. rex, a rocket, a koala, broccoli and a butterfly where the status dots were" width="320">
 
 The same tab gets the same emoji every time. Not random per frame and not random per launch:
 the mark is a remainder over a number the host gives the plugin for each row, and that number

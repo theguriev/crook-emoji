@@ -107,13 +107,24 @@ pub const MARKS: [&str; 64] = [
 /// choice is a remainder, and a person who liked the octopus their `crook`
 /// checkout got keeps it.
 ///
-/// The high bits are folded in first. The host's key is a hash and its low
-/// bits are as good as its high ones today, but a remainder that reads only
-/// the bottom six is a plugin that would start repeating itself if that ever
-/// stopped being true — and folding is two instructions.
+/// The key is mixed before the remainder is taken. It is an FNV-1a hash the
+/// host does not finish, and a byte of difference — the second tab in a
+/// directory rather than the tenth — barely reaches its low bits: taken
+/// straight, those two tabs wore the same mark in almost a third of
+/// directories where one in sixty-four is chance, and a dozen tabs in one
+/// place showed fewer than ten different marks. The mix is MurmurHash3's
+/// finaliser, which spreads every bit of the key over all of them.
 pub fn mark_for(facts: &TabFacts) -> &'static str {
-    let key = facts.key ^ (facts.key >> 32);
-    MARKS[(key % MARKS.len() as u64) as usize]
+    MARKS[(mixed(facts.key) % MARKS.len() as u64) as usize]
+}
+
+/// MurmurHash3's 64-bit finaliser, `fmix64`.
+fn mixed(mut key: u64) -> u64 {
+    key ^= key >> 33;
+    key = key.wrapping_mul(0xff51_afd7_ed55_8ccd);
+    key ^= key >> 33;
+    key = key.wrapping_mul(0xc4ce_b9fe_1a85_ec53);
+    key ^ (key >> 33)
 }
 
 #[cfg(test)]
